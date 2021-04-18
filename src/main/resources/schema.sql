@@ -7,7 +7,9 @@ create table if not exists configuration (
     state varchar (250) not null,
     status varchar (250) not null,
     roomID INT not null,
-    device_type varchar (250) not null
+    device_type varchar (250) not null,
+    temperature varchar (250) not null,
+    humidity varchar (250) not null
 );
 
 create table if not exists unassignedDevices (

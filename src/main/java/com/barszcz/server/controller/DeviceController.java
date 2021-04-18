@@ -24,6 +24,8 @@ public class DeviceController {
 
     private final static String SERIAL_VALUE = "serial";
     private final static String STATUS_VALUE = "status";
+    private final static String TEMP_VALUE = "temperature";
+    private final static String HUM_VALUE = "humidity";
     private static final String DEVICE_TYPE_VALUE = "deviceType";
 
     private DeviceConfigurationDao deviceConfigurationDao;
@@ -32,8 +34,14 @@ public class DeviceController {
     private SceneryService sceneryService;
 
     @GetMapping(path = "/getDevices")
-    public List<DeviceConfigurationModel> getAllDevices(@RequestParam int roomID) {
+    public List<DeviceConfigurationModel> getDevicesByRoomId(@RequestParam int roomID) {
         return deviceConfigurationDao.findByRoomID(roomID);
+    }
+
+
+    @GetMapping(path = "/devices")
+    public List<DeviceConfigurationModel> getAllDevices() {
+        return deviceConfigurationDao.findAll();
     }
 
     @SubscribeMapping("/unassignedDevices")
@@ -67,6 +75,7 @@ public class DeviceController {
 
     @MessageMapping("/doesntExists")
     public void doesntExists(@Payload String payload) throws Exception {
+        System.out.println("ping");
         JSONObject jsonObject = jsonService.parse(payload);
         int serial = jsonService.getInt(jsonObject, SERIAL_VALUE);
         String deviceType = jsonService.getString(jsonObject, DEVICE_TYPE_VALUE);
@@ -86,6 +95,14 @@ public class DeviceController {
         JSONObject jsonObject = jsonService.parse(payload);
         String status = jsonService.getString(jsonObject, STATUS_VALUE);
         deviceService.changeDeviceStatus(serial, status);
+    }
+
+    @MessageMapping("/temperature/{serial}")
+    public void updateTemperatureFromDevice(@DestinationVariable("serial") int serial, @RequestBody String payload) throws Exception {
+        JSONObject jsonObject = jsonService.parse(payload);
+        String temperature = jsonService.getString(jsonObject, TEMP_VALUE);
+        String humidity = jsonService.getString(jsonObject, HUM_VALUE);
+        deviceService.changeTemperature(serial, temperature, humidity);
     }
 
     @GetMapping("/changeDeviceStatus-http/{serial}")

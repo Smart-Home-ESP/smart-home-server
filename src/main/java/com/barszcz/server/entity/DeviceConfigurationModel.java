@@ -16,6 +16,9 @@ public class DeviceConfigurationModel {
     @Column(name = "device_name", nullable = false)
     String deviceName;
 
+    @Column(name = "device_type", nullable = false)
+    String deviceType;
+
     @Column(name = "hue", nullable = false)
     int hue;
 
@@ -34,7 +37,10 @@ public class DeviceConfigurationModel {
     @Column(name = "roomID", nullable = false)
     int roomID;
 
-    @Column(name = "device_type", nullable = false)
-    String deviceType;
+    @Column(name = "temperature")
+    String temperature;
+
+    @Column(name = "humidity")
+    String humidity;
 
 }

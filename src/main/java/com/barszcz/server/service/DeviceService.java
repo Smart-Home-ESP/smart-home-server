@@ -21,6 +21,8 @@ public interface DeviceService {
 
     void changeDeviceStatus(int serial, String status) throws Exception;
 
+    void changeTemperature(int serial, String temperature, String humidity) throws Exception;
+
     void updateDeviceStatus(int serial, String status) throws Exception;
 
     void doesntExist(int serial, String deviceType) throws Exception;

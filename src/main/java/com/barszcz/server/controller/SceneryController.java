@@ -24,6 +24,11 @@ public class SceneryController {
     private SceneryConfigurationDao sceneryConfigurationDao;
     private DeviceConfigurationInSceneryDao deviceConfigurationInSceneryDao;
 
+    @GetMapping("/getAllSceneries")
+    public List<SceneryConfigurationModel> getAllSceneries(){
+        return sceneryConfigurationDao.findAll();
+    }
+
     @PostMapping(path = "/addScenery")
     public void addScenery(@RequestBody SceneryCreation sceneryCreation){
         sceneryService.addScenery(sceneryCreation);

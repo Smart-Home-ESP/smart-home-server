@@ -9,6 +9,7 @@ import com.barszcz.server.entity.Requests.RenameDeviceRequest;
 import com.barszcz.server.entity.Responses.ColorChangeResponse;
 import com.barszcz.server.entity.Responses.SimpleResponse;
 import com.barszcz.server.entity.Responses.StatusChangeResponse;
+import com.barszcz.server.entity.Responses.TemperatureChangeResponse;
 import com.barszcz.server.entity.UnassignedDeviceModel;
 import com.barszcz.server.exception.ChangeColorException;
 import com.barszcz.server.exception.ChangeDeviceStatusException;
@@ -101,6 +102,19 @@ public class DeviceServiceImpl implements DeviceService {
             return true;
         })
                 .orElseThrow(() -> new ChangeDeviceStatusException("Change device error"));
+    }
+
+
+    public void changeTemperature(int serial, String temperature, String humidity) throws Exception {
+        System.out.println("temperature change for device:" + serial);
+        deviceConfigurationDao.findById(serial).map(deviceConfigurationModel -> {
+            deviceConfigurationModel.setTemperature(temperature);
+            deviceConfigurationModel.setHumidity(humidity);
+            deviceConfigurationDao.save(deviceConfigurationModel);
+            simpMessagingTemplate.convertAndSend("/device/device/" + serial, new TemperatureChangeResponse(serial, temperature, humidity));
+            return true;
+        })
+                .orElseThrow(() -> new ChangeDeviceStatusException("Change temperature error"));
     }
 
 

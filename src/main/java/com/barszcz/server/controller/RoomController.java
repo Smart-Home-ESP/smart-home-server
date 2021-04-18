@@ -2,6 +2,7 @@ package com.barszcz.server.controller;
 
 import com.barszcz.server.dao.RoomConfigurationDao;
 import com.barszcz.server.entity.RoomConfigurationModel;
+import com.barszcz.server.exception.RoomNotFoundException;
 import com.barszcz.server.service.JsonObjectService;
 import com.barszcz.server.service.RoomService;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,19 @@ public class RoomController {
 
     @SubscribeMapping("/rooms")
     public List<RoomConfigurationModel> findRooms() {
-        return (List<RoomConfigurationModel>) roomConfigurationDao.findAll();
+        return roomConfigurationDao.findAll();
+
+    }
+
+    @GetMapping("/getAllRooms")
+    public List<RoomConfigurationModel> findAllRooms() {
+        return roomConfigurationDao.findAll();
+
+    }
+
+    @GetMapping("/getRoomById")
+    public RoomConfigurationModel getRoomById(@RequestParam int roomID) throws RoomNotFoundException {
+        return roomConfigurationDao.findById(roomID).orElseThrow(() -> new RoomNotFoundException("Room not found"));
 
     }
 
