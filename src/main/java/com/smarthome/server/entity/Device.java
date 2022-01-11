@@ -18,6 +18,6 @@ public class Device {
     private int brightness;
     private String deviceStatus;
     private String deviceConnectionStatus;
-    private int roomID;
+    private String roomID;
     private String deviceType;
 }

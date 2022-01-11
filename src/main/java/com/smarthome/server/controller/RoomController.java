@@ -41,8 +41,7 @@ public class RoomController {
     }
 
     @DeleteMapping(path = "/deleteRoom/{id}")
-    public void deleteDevice(@PathVariable("id") int id) {
-        roomRepository.deleteById(id);
+    public void deleteDevice(@PathVariable("id") String id) {
         log.info("deleted room with id:" + id);
         roomService.deleteRoom(id);
     }
