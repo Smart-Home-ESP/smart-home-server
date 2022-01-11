@@ -36,7 +36,7 @@ public class DeviceController {
     }
 
     @GetMapping(path = "/getDeviceByRoomID")
-    public List<Device> getDeviceByRoomId(@RequestParam int roomID) {
+    public List<Device> getDeviceByRoomId(@RequestParam String roomID) {
         return deviceRepository.findByRoomID(roomID);
     }
 

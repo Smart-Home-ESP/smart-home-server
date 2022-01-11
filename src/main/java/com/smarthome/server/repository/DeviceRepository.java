@@ -13,7 +13,7 @@ public interface DeviceRepository extends MongoRepository<Device, Integer> {
 
 
     @Query("{roomID:?0}")
-    List<Device> findByRoomID(int room);
+    List<Device> findByRoomID(String room);
 
     @Query("{serial:?0}")
     Optional<Device> findBySerial(int serial);

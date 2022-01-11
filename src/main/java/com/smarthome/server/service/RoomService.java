@@ -6,7 +6,7 @@ public interface RoomService {
 
     void addRoom(Room room);
 
-    void deleteRoom(int roomID);
+    void deleteRoom(String roomID);
 
     void editName(Room room) throws Exception;
 }

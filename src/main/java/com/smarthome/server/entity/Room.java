@@ -11,8 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Room {
 
     @Id
-    private int id;
+    private String id;
     private String roomName;
-    //TODO change to boolean
-    private String main;
+    private boolean main;
 }

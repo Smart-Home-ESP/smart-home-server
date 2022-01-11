@@ -11,6 +11,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -24,12 +25,13 @@ public class RoomServiceImpl implements RoomService {
 
 
     public void addRoom(Room room) {
+        room.setId(UUID.randomUUID().toString());
         roomRepository.save(room);
         simpMessagingTemplate.convertAndSend("/rooms/rooms", roomRepository.findAll());
 
     }
 
-    public void deleteRoom(int roomID) {
+    public void deleteRoom(String roomID) {
         List<Device> devices;
         devices = deviceRepository.findByRoomID(roomID);
         devices.forEach(device -> {
