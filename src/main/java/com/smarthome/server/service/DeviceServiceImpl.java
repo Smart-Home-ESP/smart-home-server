@@ -77,7 +77,8 @@ public class DeviceServiceImpl implements DeviceService {
         });
     }
 
-    public void changeDeviceColor(int serial, Device device) throws Exception {
+    public void changeDeviceStatusAndColor(Device device) throws ChangeColorException {
+        final int serial = device.getSerial();
         log.info("color change for device:" + serial);
         String status = device.getDeviceStatus();
         deviceRepository.findById(serial).map(deviceConfigurationModel -> {

@@ -103,6 +103,7 @@ public class DeviceController {
 
     @MessageMapping("/changeDeviceColor/{serial}")
     public void changeDeviceColor(@DestinationVariable("serial") int serial, @Payload Device device) throws Exception {
-        deviceService.changeDeviceColor(serial, device);
+        device.setSerial(serial);
+        deviceService.changeDeviceStatusAndColor(device);
     }
 }
