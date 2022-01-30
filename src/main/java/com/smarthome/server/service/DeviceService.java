@@ -16,7 +16,7 @@ public interface DeviceService {
 
     void deleteDevice(int serial);
 
-    void changeDeviceColor(int serial, Device device) throws Exception;
+    void changeDeviceStatusAndColor(Device device) throws Exception;
 
     void changeDeviceStatus(int serial, String status) throws Exception;
 
