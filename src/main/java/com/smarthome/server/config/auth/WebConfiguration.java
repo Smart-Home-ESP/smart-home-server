@@ -1,4 +1,4 @@
-package com.smarthome.server.config;
+package com.smarthome.server.config.auth;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
