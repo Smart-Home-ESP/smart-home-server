@@ -1,5 +1,5 @@
 package com.smarthome.server.entity.enums;
 
-public enum ERole {
+public enum Role {
     ROLE_ADMIN, ROLE_USER
 }
