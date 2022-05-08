@@ -61,6 +61,21 @@ public class DeviceController {
         deviceService.changeStatus(serial);
     }
 
+    @GetMapping("/getDeviceStatus-http/{serial}")
+    public String getDeviceStatusHttp(@PathVariable("serial") int serial) {
+        var status = deviceRepository.findBySerial(serial).get().getDeviceStatus();
+        if (status.equals("On")) {
+            return "1";
+        } else {
+            return "0";
+        }
+    }
+
+    @GetMapping("/changeDeviceStatus-http/{serial}/{status}")
+    public void changeDeviceStatusHttpBySerial(@PathVariable("serial") int serial, @PathVariable("status") String status) throws Exception {
+        deviceService.changeDeviceStatus(serial, status);
+    }
+
     @GetMapping("/turn-off-all")
     public void turnOffAll() {
         deviceService.turnOffAllDevices();
