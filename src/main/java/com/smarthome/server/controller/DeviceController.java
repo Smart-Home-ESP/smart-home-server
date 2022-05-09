@@ -77,7 +77,7 @@ public class DeviceController {
 
     @GetMapping("/changeDeviceStatus-http/{serial}/{status}")
     public void changeDeviceStatusHttpBySerial(@PathVariable("serial") int serial, @PathVariable("status") String status) throws Exception {
-        deviceService.changeDeviceStatus(serial, status);
+        deviceService.changeDeviceStatusStateful(serial, status);
     }
 
     @GetMapping("/turn-off-all")

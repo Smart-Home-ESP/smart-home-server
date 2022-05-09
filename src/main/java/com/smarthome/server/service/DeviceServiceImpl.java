@@ -36,7 +36,7 @@ public class DeviceServiceImpl implements DeviceService {
     public void changeStatusStateless(int serial) {
         deviceRepository.findById(serial).ifPresent(device -> {
                     log.info("state change for device:" + serial);
-                    saveAndSend(serReverseStatus(device));
+                    saveAndSend(setStatus(device));
                 }
         );
     }
@@ -105,6 +105,16 @@ public class DeviceServiceImpl implements DeviceService {
 
     }
 
+    public void changeDeviceStatusStateful(int serial, String status) throws Exception {
+        log.info("state change for device:" + serial);
+        deviceRepository.findBySerial(serial).map(device -> {
+            device.setDeviceStatus(status);
+            saveAndSend(device);
+            return device;
+        }).orElseThrow(() -> new ChangeDeviceStatusException("Change device error"));
+
+    }
+
 
     public void updateDeviceStatus(int serial, String status) throws Exception {
         log.info("state change for device:" + serial);
@@ -154,7 +164,7 @@ public class DeviceServiceImpl implements DeviceService {
      *  In device code is bug
      *  Remove when fixed
      */
-    private void setStatus(Device device) {
+    private Device setStatus(Device device) {
         if (device.getDeviceStatus().contains("\"")) {
             log.info("FIXME");
             if (device.getDeviceStatus().contains("Off")) {
@@ -162,11 +172,7 @@ public class DeviceServiceImpl implements DeviceService {
             } else if (device.getDeviceStatus().contains("On")) {
                 device.setDeviceStatus("On");
             }
-        }
-    }
-
-    private Device serReverseStatus(Device device) {
-        if (device.getDeviceStatus().contains("Off")) {
+        } else if (device.getDeviceStatus().contains("Off")) {
             device.setDeviceStatus("On");
         } else if (device.getDeviceStatus().contains("On")) {
             device.setDeviceStatus("Off");

@@ -19,6 +19,7 @@ public interface DeviceService {
     void changeDeviceStatusAndColor(Device device) throws Exception;
 
     void changeDeviceStatus(int serial, String status) throws Exception;
+    void changeDeviceStatusStateful(int serial, String status) throws Exception;
 
     void updateDeviceStatus(int serial, String status) throws Exception;
 
