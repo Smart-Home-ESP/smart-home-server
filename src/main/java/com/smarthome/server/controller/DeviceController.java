@@ -58,16 +58,20 @@ public class DeviceController {
     //Get mapping because of ios shortcuts app TODO fix in future
     @GetMapping("/changeDeviceStatus-http/{serial}")
     public void changeDeviceStatusHttp(@PathVariable("serial") int serial) {
-        deviceService.changeStatus(serial);
+        deviceService.changeStatusStateless(serial);
     }
 
     @GetMapping("/getDeviceStatus-http/{serial}")
-    public String getDeviceStatusHttp(@PathVariable("serial") int serial) {
-        var status = deviceRepository.findBySerial(serial).get().getDeviceStatus();
-        if (status.equals("On")) {
-            return "1";
+    public String getDeviceStatusHttp(@PathVariable("serial") int serial) throws Exception {
+        var device = deviceRepository.findBySerial(serial);
+        if(device.isPresent()) {
+            if (device.get().getDeviceStatus().equals("On")) {
+                return "1";
+            } else {
+                return "0";
+            }
         } else {
-            return "0";
+            throw new Exception("Device not found");
         }
     }
 
