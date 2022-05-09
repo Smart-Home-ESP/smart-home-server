@@ -1,11 +1,11 @@
 package com.smarthome.server.service;
 
 import com.smarthome.server.entity.Device;
+import com.smarthome.server.entity.UnassignedDevice;
 import com.smarthome.server.entity.requests.RenameDeviceRequest;
 import com.smarthome.server.entity.responses.ColorChangeResponse;
 import com.smarthome.server.entity.responses.SimpleResponse;
 import com.smarthome.server.entity.responses.StatusChangeResponse;
-import com.smarthome.server.entity.UnassignedDevice;
 import com.smarthome.server.exception.ChangeColorException;
 import com.smarthome.server.exception.ChangeDeviceStatusException;
 import com.smarthome.server.repository.DeviceRepository;
@@ -36,7 +36,7 @@ public class DeviceServiceImpl implements DeviceService {
     public void changeStatus(int serial) {
         deviceRepository.findById(serial).ifPresent(device -> {
                     log.info("state change for device:" + serial);
-                    saveAndSend(setStatus(device));
+                    saveAndSend(serReverseStatus(device));
                 }
         );
     }
@@ -98,6 +98,7 @@ public class DeviceServiceImpl implements DeviceService {
         log.info("state change for device:" + serial);
         deviceRepository.findBySerial(serial).map(device -> {
             device.setDeviceStatus(status);
+            setStatus(device);
             saveAndSend(device);
             return device;
         }).orElseThrow(() -> new ChangeDeviceStatusException("Change device error"));
@@ -153,7 +154,7 @@ public class DeviceServiceImpl implements DeviceService {
      *  In device code is bug
      *  Remove when fixed
      */
-    private Device setStatus(Device device) {
+    private void setStatus(Device device) {
         if (device.getDeviceStatus().contains("\"")) {
             log.info("FIXME");
             if (device.getDeviceStatus().contains("Off")) {
@@ -161,11 +162,17 @@ public class DeviceServiceImpl implements DeviceService {
             } else if (device.getDeviceStatus().contains("On")) {
                 device.setDeviceStatus("On");
             }
-        } else if (device.getDeviceStatus().contains("Off")) {
+        }
+    }
+
+    private Device serReverseStatus(Device device) {
+        if (device.getDeviceStatus().contains("Off")) {
             device.setDeviceStatus("On");
         } else if (device.getDeviceStatus().contains("On")) {
             device.setDeviceStatus("Off");
         }
         return device;
     }
+
+
 }
