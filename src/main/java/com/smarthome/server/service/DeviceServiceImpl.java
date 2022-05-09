@@ -97,7 +97,6 @@ public class DeviceServiceImpl implements DeviceService {
     public void changeDeviceStatus(int serial, String status) throws Exception {
         log.info("state change for device:" + serial);
         deviceRepository.findBySerial(serial).map(device -> {
-            device.setDeviceStatus(status);
             setStatus(device);
             saveAndSend(device);
             return device;
