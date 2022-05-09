@@ -33,7 +33,7 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
 
-    public void changeStatus(int serial) {
+    public void changeStatusStateless(int serial) {
         deviceRepository.findById(serial).ifPresent(device -> {
                     log.info("state change for device:" + serial);
                     saveAndSend(serReverseStatus(device));

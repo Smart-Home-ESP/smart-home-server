@@ -58,7 +58,7 @@ public class DeviceController {
     //Get mapping because of ios shortcuts app TODO fix in future
     @GetMapping("/changeDeviceStatus-http/{serial}")
     public void changeDeviceStatusHttp(@PathVariable("serial") int serial) {
-        deviceService.changeStatus(serial);
+        deviceService.changeStatusStateless(serial);
     }
 
     @GetMapping("/getDeviceStatus-http/{serial}")

@@ -24,7 +24,7 @@ public interface DeviceService {
 
     void createNewDevice(int serial, String deviceType) throws Exception;
 
-    void changeStatus(int serial);
+    void changeStatusStateless(int serial);
 
     void turnOffAllDevices();
 
